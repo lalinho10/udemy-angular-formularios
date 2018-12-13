@@ -1,0 +1,150 @@
+<h3 class="text-center">Reactive forms</h3>
+<hr>
+<form [formGroup]="myForm" (ngSubmit)="guardar()">
+	<div formGroupName="nombrecompleto">
+		<div class="form-group row">
+			<label 	class="col-2 col-form-label"
+					[ngClass]="{ 'error-message': myForm.get('nombrecompleto.nombre').touched && !myForm.get('nombrecompleto.nombre').valid }">
+				Nombre
+			</label>
+			<div class="col-8">
+				<input 	class="form-control"
+						type="text"
+						placeholder="Nombre"
+						formControlName="nombre">
+				<div 	class="error-message"
+						*ngIf="myForm.get('nombrecompleto.nombre').touched && myForm.get('nombrecompleto.nombre').errors?.required">
+					Campo requerido
+				</div>
+				<div 	class="error-message"
+						*ngIf="myForm.get('nombrecompleto.nombre').touched && myForm.get('nombrecompleto.nombre').errors?.minlength">
+					Mínimo 3 caracteres
+				</div>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label 	class="col-2 col-form-label"
+					[ngClass]="{ 'error-message': myForm.get('nombrecompleto.apellido').touched && !myForm.get('nombrecompleto.apellido').valid }">
+				Apellido
+			</label>
+			<div class="col-8">
+				<input 	class="form-control"
+						type="text"
+						placeholder="Apellido"
+						formControlName="apellido">
+				<div 	class="error-message"
+						*ngIf="myForm.get('nombrecompleto.apellido').touched && myForm.get('nombrecompleto.apellido').errors?.required">
+					Campo requerido
+				</div>
+				<div 	class="error-message"
+						*ngIf="myForm.get('nombrecompleto.apellido').touched && myForm.get('nombrecompleto.apellido').errors?.alfabetico">
+					Formato incorrecto
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="form-group row">
+		<label 	class="col-2 col-form-label"
+				[ngClass]="{ 'error-message': myForm.get('correo').touched && !myForm.get('correo').valid }">
+			Correo
+		</label>
+		<div class="col-md-8">
+			<input 	class="form-control"
+					type="email"
+					placeholder="Correo electrónico"
+					formControlName="correo">
+			<div 	class="error-message"
+					*ngIf="myForm.get('correo').touched && myForm.get('correo').errors?.required">
+				Campo requerido
+			</div>
+			<div 	class="error-message"
+					*ngIf="myForm.get('correo').touched && myForm.get('correo').errors?.pattern">
+				Correo inválido
+			</div>
+		</div>
+	</div>
+	<div class="form-group row">
+		<label 	class="col-2 col-form-label"
+				[ngClass]="{ 'error-message': false }">
+			Pasatiempos
+		</label>
+		<div class="col-md-8" formArrayName="pasatiempos">
+			<input 	*ngFor="let pasatiempo of myForm.get('pasatiempos').controls; let i = index;"
+					class="form-control"
+					type="text"
+					[formControlName]="i">
+		</div>
+		<div class="col-2">
+			<button (click)="agregarPasatiempo()"
+					type="button"
+					class="btn btn-primary">
+				Nuevo
+			</button>
+		</div>
+	</div>
+	<div class="form-group row">
+		<label 	class="col-2 col-form-label"
+				[ngClass]="{ 'error-message': myForm.get('username').touched && !myForm.get('username').valid }">
+			Nombre usuario
+		</label>
+		<div class="col-md-8">
+			<input 	class="form-control"
+					type="text"
+					placeholder="Usuario"
+					formControlName="username">
+			<div 	class="error-message"
+					*ngIf="myForm.get('username').touched && myForm.get('username').errors?.required">
+				Campo requerido
+			</div>
+			<div 	class="error-message"
+					*ngIf="myForm.get('username').touched && myForm.get('username').errors?.existeusuario">
+				El usuario ya existe
+			</div>
+		</div>
+	</div>
+	<div class="form-group row">
+		<label 	class="col-2 col-form-label"
+				[ngClass]="{ 'error-message': myForm.get('password1').touched && !myForm.get('password1').valid }">
+			Contraseña
+		</label>
+		<div class="col-md-8">
+			<input 	class="form-control"
+					type="password"
+					placeholder="Constraseña"
+					formControlName="password1">
+			<div 	class="error-message"
+					*ngIf="myForm.get('password1').touched && myForm.get('password1').errors?.required">
+				Campo requerido
+			</div>
+		</div>
+	</div>
+	<div class="form-group row">
+		<label 	class="col-2 col-form-label"
+				[ngClass]="{ 'error-message': myForm.get('password2').touched && !myForm.get('password2').valid }">
+			Confirmar contraseña
+		</label>
+		<div class="col-md-8">
+			<input 	class="form-control"
+					type="password"
+					placeholder="Confirmar constraseña"
+					formControlName="password2">
+			<div 	class="error-message"
+					*ngIf="myForm.get('password2').touched && myForm.get('password2').errors?.required">
+				Campo requerido
+			</div>
+			<div 	class="error-message"
+					*ngIf="myForm.get('password2').touched && myForm.get('password2').errors?.diferentes">
+				Contraseñas diferentes
+			</div>
+		</div>
+	</div>
+	<div class="form-group row">
+		<label class="col-2 col-form-label">&nbsp;</label>
+		<div class="input-group col-md-8">
+			<button type="submit" class="btn btn-outline-primary">
+				Guardar
+			</button>
+		</div>
+	</div>
+	{{ myForm.valid }}<br>{{ myForm.status }}
+</form>

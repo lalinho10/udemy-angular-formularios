@@ -1,0 +1,122 @@
+<h3 class="text-center">Template driven forms</h3>
+<hr>
+<form (ngSubmit)="guardar(myForm)" #myForm="ngForm" novalidate="novalidate">
+	<div class="form-group row">
+		<label 	class="col-2 col-form-label"
+				[ngClass]="{ 'error-message': nombre.touched && ( nombre.errors?.required || nombre.errors?.pattern ) }">
+			Nombre
+		</label>
+		<div class="col-8">
+			<input 	class="form-control"
+					type="text"
+					placeholder="Nombre"
+					name="nombre"
+					[(ngModel)]="usuario.nombre"
+					required
+					minlength="3"
+					#nombre="ngModel">
+			<div class="error-message" *ngIf="nombre.touched && nombre.errors?.required">Campo requerido</div>
+			<div class="error-message" *ngIf="nombre.touched && nombre.errors?.minlength">Mínimo {{ nombre.errors.minlength.requiredLength }} caracteres</div>
+		</div>
+	</div>
+	<div class="form-group row">
+		<label 	class="col-2 col-form-label"
+				[ngClass]="{ 'error-message': apellido.touched && apellido.errors?.required }">
+			Apellido
+		</label>
+		<div class="col-8">
+			<input 	class="form-control" 
+					type="text"
+					placeholder="Apellido"
+					name="apellido"
+					[(ngModel)]="usuario.apellido"
+					required
+					#apellido="ngModel">
+			<div class="error-message" *ngIf="apellido.touched && apellido.errors?.required">Campo requerido</div>
+		</div>
+	</div>
+	<div class="form-group row">
+		<label 	class="col-2 col-form-label"
+				[ngClass]="{ 'error-message': email.touched && ( email.errors?.required || email.errors?.pattern ) }">
+			Correo
+		</label>
+		<div class="col-md-8">
+			<input 	class="form-control"
+					type="email"
+					placeholder="Correo electrónico"
+					name="email"
+					[(ngModel)]="usuario.email"
+					required
+					pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+					#email="ngModel">
+			<div class="error-message" *ngIf="email.touched && email.errors?.required">Campo requerido</div>
+			<div class="error-message" *ngIf="email.touched && email.errors?.pattern">Correo inválido</div>
+		</div>
+	</div>
+	<div class="form-group row">
+		<label 	class="col-2 col-form-label"
+				[ngClass]="{ 'error-message': pais.touched && pais.errors?.required }">
+			País
+		</label>
+		<div class="col-8">
+			<select class="form-control"
+					name="pais"
+					[(ngModel)]="usuario.pais"
+					required
+					#pais="ngModel">
+				<option value="">Seleccione un país</option>
+				<option *ngFor="let pais of paises" [value]="pais.clave">{{ pais.nombre }}</option>
+			</select>
+			<div class="error-message" *ngIf="pais.touched && pais.errors?.required">Campo requerido</div>
+		</div>
+	</div>
+	<div class="form-group row">
+		<label 	class="col-2 col-form-label"
+				[ngClass]="{ 'error-message': false }">
+			Sexo
+		</label>
+		<div class="col-8">
+			<div *ngFor="let genero of generos" class="form-check form-check-inline">
+				<input 	class="form-check-input"
+						type="radio"
+						name="genero"
+						[(ngModel)]="usuario.genero"
+						required
+						[value]="genero">
+				<label class="form-check-label">{{genero}}</label>
+			</div>
+		</div>
+	</div>
+	<div class="form-group row">
+		<label 	class="col-2 col-form-label"
+				[ngClass]="{ 'error-message': acepta.touched && acepta.errors?.required }">
+			Acepta
+		</label>
+		<div class="col-8">
+			<div class="form-check form-check-inline">
+				<input 	class="form-check-input"
+						type="checkbox"
+						name="acepta"
+						[(ngModel)]="usuario.acepta"
+						required
+						#acepta="ngModel"
+						id="inlineCheckbox1">
+				<label class="form-check-label" for="inlineCheckbox1">Aceptar Términos y Condiciones</label>
+			</div>
+			<div class="error-message" *ngIf="acepta.touched && acepta.errors?.required">
+				Debe aceptar los términos y condiciones
+			</div>
+		</div>
+	</div>
+	<div class="form-group row">
+		<label class="col-2 col-form-label">&nbsp;</label>
+		<div class="input-group col-md-8">
+			<button type="submit"
+					class="btn btn-outline-primary"
+					[disabled]="!myForm.valid">
+				Guardar
+			</button>
+		</div>
+	</div>
+	<pre>{{ usuario | json }}</pre>
+</form>
